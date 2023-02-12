@@ -10,6 +10,5 @@ if (!process.stdin.isTTY) {
 
 
 rl.on("line", (input) => {
-    console.log("Input was => ", input)
-    // Your code that uses the input goes here
+    console.log(input/4)
 })
