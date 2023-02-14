@@ -22,6 +22,7 @@ def main():
                 if frog_current + 1 < num_squares:
                     frog_current+=1
                 else:
+                    hops += 1
                     return ["right", hops]
 
         else:
@@ -29,6 +30,7 @@ def main():
                 if not frog_current - 1 < 0:
                     frog_current-=1
                 else:
+                    hops += 1
                     return ["left", hops]
         hops += 1
 
