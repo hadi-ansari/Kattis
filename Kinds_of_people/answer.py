@@ -61,7 +61,6 @@ def main():
     for i in range(1, r + 1):
         graph[i] = [int(x) for x in list(input())]
 
-    # print(graph)
     n = int(input())
 
     for i in range(n):
@@ -73,13 +72,14 @@ def main():
         start = tuple(start)
         dest = tuple(dest)
         # print("start: {},\tdest: {}, mode: {}".format(start, dest, "binary"))
-        if find_path(graph, start, dest, DECIMAL, c):
-            print(DECIMAL)
-        elif find_path(graph, start, dest, BINARY, c):
+        path_found = False
+        if find_path(graph, start, dest, BINARY, c):
+            path_found = True
             print(BINARY)
-        else:
+        if find_path(graph, start, dest, DECIMAL, c):
+            path_found = True
+            print(DECIMAL)
+        if not path_found:
             print(NEITHER)
-
-
 
 main()
