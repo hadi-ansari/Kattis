@@ -1,43 +1,59 @@
-num_stores = int(input())
-num_items = int(input())
+import itertools
 
-items = {}
+def main():
+    num_stores = int(input())
+    num_items = int(input())
 
-
-for i in range(num_items):
-    line = input().split()
-    store_idx = int(line[0])
-    item_name = line[1]
-    if not item_name in items:
-        items[item_name] = [store_idx]
-    else:
-        stores = list(items[item_name])
-        stores.append(store_idx)
-        items[item_name] = stores
+    items = {}
 
 
-purchased_items = int(input())
-purchased_items_list = []
+    for i in range(num_items):
+        line = input().split()
+        store_idx = int(line[0])
+        item_name = line[1]
+        if not store_idx in items:
+            items[store_idx] = [item_name]
+        else:
+            items_list = list(items[store_idx])
+            items_list.append(item_name)
+            items[store_idx] = items_list
 
-for i in range(purchased_items):
-    purchased_items_list.append(input())
 
-# print(items)
-# print(purchased_items_list)
-# print()
+    purchased_items = int(input())
+    purchased_items_list = []
 
-res = False
+    for i in range(purchased_items):
+        purchased_items_list.append(input())
 
-for store_idx in range(purchased_items):
-    if store_idx not in items[purchased_items_list[store_idx]]:
-        res = True
-        print("impossible")
-        break
-    elif len(items[purchased_items_list[store_idx]]) > 1:
-        res = True
-        print("ambiguous")
-        break
+    # print(items)
+    # print(purchased_items_list)
+    # print()
 
-if not res:
-    print("unique")
+    temp = list(purchased_items_list)
+    for i in range(num_stores):
+        while True:
+            if len(temp) > 0 and temp[0] in items[i]:
+                # print("{} exists in {}".format(temp[0], i))
+                temp.pop(0)
+            else:
+                break
 
+    if len(temp) > 0:
+        return "impossible"
+
+    appearance = []
+    for item in purchased_items_list:
+        l = []
+        for i in range(num_stores):
+            if item in items[i]:
+                l.append(i)
+        appearance.append(l)
+
+    combinations = list(itertools.product(*appearance))
+    filtered = [c for c in combinations if all(c[i] <= c[i+1] for i in range(purchased_items - 1))]
+    if len(filtered) > 1:
+        return "ambiguous"
+
+    return "unique"
+
+print(main())
